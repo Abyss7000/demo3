@@ -10,6 +10,12 @@ public class GPU extends Database {
     private double Price;
     private int Quantity;
 
+    private static String part ="GPU";
+
+    public static String getPart() {
+        return part;
+    }
+
     public int getId() {
         return id;
     }

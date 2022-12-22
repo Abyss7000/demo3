@@ -9,6 +9,12 @@ public class Storage extends Database {
     private double Price;
     private int Quantity;
 
+    private static String part = "Storage";
+
+    public static String getPart() {
+        return part;
+    }
+
     public int getId() {
         return id;
     }

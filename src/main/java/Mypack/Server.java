@@ -2,7 +2,7 @@ package Mypack;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
-import java.io.InputStreamReader;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.ServerSocket;

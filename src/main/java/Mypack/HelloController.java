@@ -11,11 +11,11 @@ import java.io.IOException;
 
 public class HelloController {
 
-        @FXML
-        private Button button1;
+    @FXML
+    private Button button1;
 
-        @FXML
-        private Button button2;
+    @FXML
+    private Button button2;
 
     @FXML
     private Button button3;
@@ -34,6 +34,10 @@ public class HelloController {
 
     @FXML
     private Button button8;
+
+    @FXML
+    private Button shop;
+
 
 
         @FXML
@@ -162,6 +166,22 @@ public class HelloController {
     private void handleButton8Action(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(HelloController.class.getResource("GPU.fxml"));
+        try{
+            loader.load();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+
+
+    }
+    @FXML
+    private void handleshop(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(HelloController.class.getResource("Shop.fxml"));
         try{
             loader.load();
         } catch (IOException e){

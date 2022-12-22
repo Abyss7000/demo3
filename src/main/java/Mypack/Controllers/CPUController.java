@@ -1,20 +1,27 @@
 package Mypack.Controllers;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import Mypack.ComputerParts.ButtonCellFactory;
 import Mypack.ComputerParts.CPU;
 import Mypack.Database;
+import Mypack.Controllers.Shop;
+import Mypack.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
 
 public class CPUController {
 
 
     @FXML
-    private TableView<Database> table;
+    private TableView<CPU> table;
 
     @FXML
     private TableColumn<Database, String> column1;
@@ -35,9 +42,9 @@ public class CPUController {
     private TableColumn<Database, String> column6;
 
 
-
     @FXML
     public void initialize() throws SQLException {
+
         // Initialize the table columns
         column1.setCellValueFactory(new PropertyValueFactory<>("idCPU"));
         column2.setCellValueFactory(new PropertyValueFactory<>("CPU_Brand"));
@@ -47,6 +54,7 @@ public class CPUController {
 
         // Connect to the database and retrieve the data
         Database database = new Database();
+
         database.setTable("store_cpu");
         ResultSet rs = database.ConnectDatabase(database.getStmt(), database.getConn(), database.getRs());
 
@@ -59,11 +67,31 @@ public class CPUController {
             int CPU_Amount = rs.getInt("CPU_Amount");
 
             // Create a new Database object and add it to the TableView
-            CPU cpu = new CPU (idCPU, CPU_Brand, CPU_Model, CPU_Price, CPU_Amount);
+            CPU cpu = new CPU(idCPU, CPU_Brand, CPU_Model, CPU_Price, CPU_Amount);
             table.getItems().add(cpu);
         }
 
-        // Close the database connection
-        database.CloseDatabase();
+
+// Define the callback function
+        TableColumn<CPU, Void> colBtn = new TableColumn("Purchase");
+        Callback<CPU, Void> callback = (CPU cpu) -> {
+
+            // Get the id, model, and price of the CPU object
+            int id = cpu.getIdCPU();
+            String part = cpu.getPart();
+            String model = cpu.getCPU_Model();
+            double price = cpu.getCPU_Price();
+            // Add the data to the array in the Shop class
+            Shop.addToArray(id, part, model, price);
+            //Shop.printArray();
+return null;
+        };
+
+        colBtn.setCellFactory(new ButtonCellFactory<>(callback));
+        table.getColumns().add(colBtn);
+// Close the database connection
+        //database.CloseDatabase();
+
     }
+
 }

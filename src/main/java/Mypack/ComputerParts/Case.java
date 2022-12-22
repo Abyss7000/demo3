@@ -10,6 +10,13 @@ public class Case extends Database {
     private double Price;
     private int Quantity;
 
+    public static String part ="Case";
+
+
+    public String getPart() {
+        return part;
+    }
+
     public int getId() {
         return id;
     }

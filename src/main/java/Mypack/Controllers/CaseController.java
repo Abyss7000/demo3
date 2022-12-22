@@ -1,37 +1,40 @@
 package Mypack.Controllers;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import Mypack.ComputerParts.ButtonCellFactory;
 import Mypack.ComputerParts.Case;
 import Mypack.Database;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CaseController {
 
 
     @FXML
-    private TableView<Database> table;
+    private TableView<Case> table;
 
     @FXML
-    private TableColumn<Database, String> column1;
+    private TableColumn<Case, String> column1;
 
     @FXML
-    private TableColumn<Database, String> column2;
+    private TableColumn<Case, String> column2;
 
     @FXML
-    private TableColumn<Database, String> column3;
+    private TableColumn<Case, String> column3;
 
     @FXML
-    private TableColumn<Database, String> column4;
+    private TableColumn<Case, String> column4;
 
     @FXML
-    private TableColumn<Database, String> column5;
+    private TableColumn<Case, String> column5;
 
     @FXML
-    private TableColumn<Database, String> column6;
+    private TableColumn<Case, String> column6;
 
 
 
@@ -61,8 +64,21 @@ public class CaseController {
             Case sol = new Case (id, BrandName, Model, Price, Amount);
             table.getItems().add(sol);
         }
+        TableColumn<Case, Void> colBtn = new TableColumn("Purchase");
+        Callback<Case, Void> callback = (Case sol) -> {
 
-        // Close the database connection
-        database.CloseDatabase();
+            // Get the id, model, and price of the CPU object
+            int id = sol.getId();
+            String part = sol.getPart();
+            String model = sol.getModel();
+            double price = sol.getPrice();
+            // Add the data to the array in the Shop class
+            Shop.addToArray(id, sol.part, model, price);
+
+            return null;
+        };
+
+        colBtn.setCellFactory(new ButtonCellFactory<>(callback));
+        table.getColumns().add(colBtn);
     }
 }

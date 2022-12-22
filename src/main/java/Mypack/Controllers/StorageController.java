@@ -2,18 +2,23 @@ package Mypack.Controllers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import Mypack.ComputerParts.ButtonCellFactory;
 import Mypack.ComputerParts.Case;
+import Mypack.ComputerParts.Cooler;
+import Mypack.ComputerParts.Storage;
 import Mypack.Database;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 
 public class StorageController {
 
 
     @FXML
-    private TableView<Database> table;
+    private TableView<Storage> table;
 
     @FXML
     private TableColumn<Database, String> column1;
@@ -58,11 +63,24 @@ public class StorageController {
             int Amount = rs.getInt("Quantity");
 
             // Create a new Database object and add it to the TableView
-            Case sol = new Case (id, BrandName, Model, Price, Amount);
-            table.getItems().add(sol);
+           Storage storage = new Storage(id, BrandName, Model, Price, Amount);
+            table.getItems().add(storage);
         }
+        TableColumn<Storage, Void> colBtn = new TableColumn("Purchase");
+        Callback<Storage, Void> callback = (Storage storage) -> {
 
-        // Close the database connection
-        database.CloseDatabase();
+            // Get the id, model, and price of the CPU object
+            int id = storage.getId();
+            String part = storage.getPart();
+            String model = storage.getModel();
+            double price = storage.getPrice();
+
+            // Add the data to the array in the Shop class
+            Shop.addToArray(id, part, model, price);
+            Shop.printArray();
+            return null;
+        };
+        colBtn.setCellFactory(new ButtonCellFactory<>(callback));
+        table.getColumns().add(colBtn);
     }
 }

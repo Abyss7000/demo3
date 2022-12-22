@@ -9,6 +9,12 @@ public class Cooler extends Database {
     private double Price;
     private int Quantity;
 
+    public static String part = "Cooler";
+
+    public static String getPart() {
+        return part;
+    }
+
     public int getId() {
         return id;
     }

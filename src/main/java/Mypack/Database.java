@@ -70,6 +70,7 @@ public class Database {
 
     }
 
+
     public void CloseDatabase() {
         try {
             rs.close();
@@ -83,50 +84,4 @@ public class Database {
 }
 
 
-
-
-      /*  public void start() {
-            try {
-                serverSocket = new ServerSocket(5000);
-                while (true) {
-                    // Accept an incoming connection
-                    Socket clientSocket = serverSocket.accept();
-                    // Add the socket to the list of client sockets
-                    clientSockets.add(clientSocket);
-
-                    // Start a new thread to handle communication with the client
-                    new Thread(new ClientHandler(clientSocket)).start();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                // Close the server socket and the database connection
-                try {
-                    serverSocket.close();
-                    conn.close();
-                } catch (IOException | SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-
-        private class ClientHandler implements Runnable {
-            private Socket clientSocket;
-
-            public ClientHandler(Socket clientSocket) {
-                this.clientSocket = clientSocket;
-            }
-
-            @Override
-            public void run() {
-                try {
-                    // Get the input and output streams from the socket
-                    BufferedReader in = new BufferedReader(new InputStreamReader());
-
-            }
-        }
-        }
-    }
-    */
 

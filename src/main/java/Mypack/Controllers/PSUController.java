@@ -2,18 +2,23 @@ package Mypack.Controllers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import Mypack.ComputerParts.ButtonCellFactory;
 import Mypack.ComputerParts.Case;
+import Mypack.ComputerParts.Cooler;
+import Mypack.ComputerParts.PSU;
 import Mypack.Database;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 
 public class PSUController {
 
 
     @FXML
-    private TableView<Database> table;
+    private TableView<PSU> table;
 
     @FXML
     private TableColumn<Database, String> column1;
@@ -58,11 +63,24 @@ public class PSUController {
             int Amount = rs.getInt("Quantity");
 
             // Create a new Database object and add it to the TableView
-            Case sol = new Case (id, BrandName, Model, Price, Amount);
-            table.getItems().add(sol);
+            PSU psu = new PSU (id, BrandName, Model, Price, Amount);
+            table.getItems().add(psu);
         }
+        TableColumn<PSU, Void> colBtn = new TableColumn("Purchase");
+        Callback<PSU, Void> callback = (PSU psu) -> {
 
-        // Close the database connection
-        database.CloseDatabase();
+            // Get the id, model, and price of the CPU object
+            int id = psu.getId();
+            String part = psu.getPart();
+            String model = psu.getModel();
+            double price = psu.getPrice();
+
+            // Add the data to the array in the Shop class
+            Shop.addToArray(id, part, model, price);
+
+            return null;
+        };
+        colBtn.setCellFactory(new ButtonCellFactory<>(callback));
+        table.getColumns().add(colBtn);
     }
 }
